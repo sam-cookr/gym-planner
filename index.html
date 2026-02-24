@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypertrophy Blueprint | Starting Weights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN TOKENS */
+        :root {
+            --bg:            #0b0b09;
+            --bg-card:       #111110;
+            --bg-hover:      #171715;
+            --line:          #222220;
+            --text:          #ede9de;
+            --muted:         #5c5a54;
+            --accent:        #c8ff00;
+            --accent-dim:    rgba(200, 255, 0, 0.06);
+            --accent-border: rgba(200, 255, 0, 0.18);
+            --mon: #ff6433;
+            --tue: #00cfa0;
+            --wed: #ffc000;
+            --fri: #a855f7;
+            --sat: #ff3d68;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Syne", sans-serif;
+            line-height: 1.65;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* HEADER */
+        .site-header {
+            padding: 5rem 0 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .header-left { flex: 1; }
+
+        .header-tag {
+            display: block;
+            font-family: "DM Mono", monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.05s;
+        }
+
+        .header-h1 {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: clamp(4.5rem, 11vw, 9.5rem);
+            line-height: 0.87;
+            letter-spacing: 0.015em;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.15s;
+        }
+
+        .header-h1 .lime { color: var(--accent); }
+
+        .header-right {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.6rem;
+            padding-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.3s;
+        }
+
+        .sched-label {
+            font-family: "DM Mono", monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .sched-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+
+        .day-badge {
+            font-family: "DM Mono", monospace;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+        }
+
+        .day-badge.mon { background: rgba(255,100,51,0.12); color: var(--mon); }
+        .day-badge.tue { background: rgba(0,207,160,0.12); color: var(--tue); }
+        .day-badge.wed { background: rgba(255,192,0,0.12);  color: var(--wed); }
+        .day-badge.fri { background: rgba(168,85,247,0.12); color: var(--fri); }
+        .day-badge.sat { background: rgba(255,61,104,0.12); color: var(--sat); }
+
+        /* INTRO PANEL */
+        .intro-panel {
+            display: grid;
+            grid-template-columns: 3rem 1fr;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.45s;
+        }
+
+        .intro-side {
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .intro-side span {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.35em;
+            color: var(--bg);
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        .intro-body {
+            padding: 1.75rem 2rem;
+            background: var(--bg-card);
+        }
+
+        .intro-body p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .intro-body p:last-child { margin-bottom: 0; }
+        .intro-body ul { list-style: none; margin: 0.4rem 0 0.65rem 0; }
+        .intro-body ul li { font-size: 0.88rem; color: var(--muted); padding: 0.12rem 0; }
+        .intro-body ul li::before { content: "–"; color: var(--accent); margin-right: 0.6rem; }
+        .intro-body strong { color: var(--text); font-weight: 600; }
+
+        /* WORKOUT GRID */
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            margin-bottom: 4rem;
+        }
+
+        /* DAY CARD */
+        .day-card {
+            background: var(--bg-card);
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.55s ease forwards;
+            transition: background 0.2s ease;
+        }
+
+        .day-card:hover { background: var(--bg-hover); }
+
+        .day-card::before {
+            content: attr(data-abbr);
+            position: absolute;
+            bottom: -1.5rem;
+            right: -0.5rem;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 9rem;
+            line-height: 1;
+            color: var(--text);
+            opacity: 0.03;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -0.04em;
+        }
+
+        .day-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--day-clr, var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+
+        .day-card:hover::after { transform: scaleX(1); }
+
+        .day-card[data-day="mon"] { --day-clr: var(--mon); }
+        .day-card[data-day="tue"] { --day-clr: var(--tue); }
+        .day-card[data-day="wed"] { --day-clr: var(--wed); }
+        .day-card[data-day="fri"] { --day-clr: var(--fri); }
+        .day-card[data-day="sat"] { --day-clr: var(--sat); }
+
+        .day-card:nth-child(1) { animation-delay: 0.05s; }
+        .day-card:nth-child(2) { animation-delay: 0.12s; }
+        .day-card:nth-child(3) { animation-delay: 0.19s; }
+        .day-card:nth-child(4) { animation-delay: 0.26s; }
+        .day-card:nth-child(5) { animation-delay: 0.33s; }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding-bottom: 1.2rem;
+            margin-bottom: 0.25rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .card-day-name {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 2.1rem;
+            line-height: 1;
+            letter-spacing: 0.04em;
+            color: var(--text);
+        }
+
+        .card-focus {
+            font-family: "DM Mono", monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 2px;
+            border: 1px solid;
+            margin-top: 0.25rem;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        .day-card[data-day="mon"] .card-focus { color: var(--mon); background: rgba(255,100,51,0.07); border-color: rgba(255,100,51,0.22); }
+        .day-card[data-day="tue"] .card-focus { color: var(--tue); background: rgba(0,207,160,0.07); border-color: rgba(0,207,160,0.22); }
+        .day-card[data-day="wed"] .card-focus { color: var(--wed); background: rgba(255,192,0,0.07);  border-color: rgba(255,192,0,0.22); }
+        .day-card[data-day="fri"] .card-focus { color: var(--fri); background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.22); }
+        .day-card[data-day="sat"] .card-focus { color: var(--sat); background: rgba(255,61,104,0.07); border-color: rgba(255,61,104,0.22); }
+
+        /* EXERCISE LIST */
+        .ex-list { list-style: none; }
+
+        .ex-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto auto;
+            column-gap: 1rem;
+            padding: 0.85rem 1.75rem;
+            margin: 0 -1.75rem;
+            border-bottom: 1px solid var(--line);
+            transition: background 0.15s ease;
+        }
+
+        .ex-item:last-child { border-bottom: none; }
+        .ex-item:hover { background: rgba(200, 255, 0, 0.03); }
+
+        .ex-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            grid-column: 1;
+            grid-row: 1;
+            letter-spacing: -0.01em;
+        }
+
+        .ex-wt {
+            font-family: "DM Mono", monospace;
+            font-size: 0.76rem;
+            color: var(--muted);
+            grid-column: 1;
+            grid-row: 2;
+            margin-top: 0.18rem;
+        }
+
+        .ex-sets {
+            font-family: "DM Mono", monospace;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 1px solid var(--accent-border);
+            padding: 0.25rem 0.55rem;
+            border-radius: 2px;
+            grid-column: 2;
+            grid-row: 1 / 3;
+            align-self: center;
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+        }
+
+        /* GROWTH SECTION */
+        .growth-section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.5s;
+        }
+
+        .section-eyebrow {
+            font-family: "DM Mono", monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+            line-height: 1;
+            letter-spacing: 0.02em;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-sub {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .growth-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+        }
+
+        .growth-item {
+            background: var(--bg-card);
+            padding: 2rem 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s ease;
+        }
+
+        .growth-item:hover { background: var(--bg-hover); }
+
+        .growth-item::after {
+            content: attr(data-num);
+            position: absolute;
+            bottom: -1.25rem;
+            right: 0.5rem;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 8rem;
+            line-height: 1;
+            color: var(--text);
+            opacity: 0.04;
+            pointer-events: none;
+        }
+
+        .growth-icon { display: block; font-size: 1.6rem; margin-bottom: 0.9rem; line-height: 1; }
+
+        .growth-title {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 1.7rem;
+            letter-spacing: 0.03em;
+            color: var(--text);
+            margin-bottom: 0.85rem;
+            line-height: 1;
+        }
+
+        .growth-item p, .growth-item li { font-size: 0.88rem; color: var(--muted); line-height: 1.72; }
+        .growth-item ul { list-style: none; margin-bottom: 0.75rem; }
+        .growth-item ul li::before { content: "→"; font-family: "DM Mono", monospace; color: var(--accent); margin-right: 0.6rem; }
+        .growth-item strong { color: var(--text); font-weight: 600; }
+
+        .growth-note {
+            font-family: "DM Mono", monospace;
+            font-size: 0.77rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--line);
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        /* FOOTER */
+        .site-footer { border-top: 1px solid var(--line); padding: 2.5rem 0; }
+        .site-footer p {
+            font-family: "DM Mono", monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+        .site-footer .dot { color: var(--accent); }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 960px) {
+            .workout-grid { grid-template-columns: repeat(2, 1fr); }
+            .growth-grid  { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 700px) {
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            .header-right { align-items: flex-start; }
+            .sched-badges { justify-content: flex-start; }
+        }
+        @media (max-width: 560px) {
+            .wrap { padding: 0 1.25rem; }
+            .site-header { padding: 2.75rem 0 0; }
+            .workout-grid { grid-template-columns: 1fr; }
+            .growth-grid  { grid-template-columns: 1fr; }
+            .intro-panel  { grid-template-columns: 2.5rem 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <span class="header-tag">Starting Weights Reference</span>
+                <h1 class="header-h1">Hypertrophy<br><span class="lime">Blueprint</span></h1>
+            </div>
+            <div class="header-right">
+                <span class="sched-label">Training Schedule</span>
+                <div class="sched-badges">
+                    <span class="day-badge mon">Mon</span>
+                    <span class="day-badge tue">Tue</span>
+                    <span class="day-badge wed">Wed</span>
+                    <span class="day-badge fri">Fri</span>
+                    <span class="day-badge sat">Sat</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="intro-panel">
+        <div class="intro-side"><span>NOTE</span></div>
+        <div class="intro-body">
+            <p>Below are realistic starting weight estimations assuming:</p>
+            <ul>
+                <li>Beginner to early-intermediate lifter</li>
+                <li>Decent form on main movements</li>
+                <li>Not currently lifting very heavy</li>
+            </ul>
+            <p>These are <strong>starting ranges</strong>. If you can exceed them cleanly, do so. If they feel too heavy, scale down 10&ndash;15%.</p>
+        </div>
+    </div>
+
+    <div class="workout-grid">
+
+        <div class="day-card" data-day="mon" data-abbr="MON">
+            <div class="card-top">
+                <div class="card-day-name">Monday</div>
+                <div class="card-focus">Push<br>Chest + Triceps</div>
+            </div>
+            <ul class="ex-list">
+                <li class="ex-item">
+                    <span class="ex-name">Barbell Bench Press</span>
+                    <span class="ex-wt">30&ndash;40 kg total (incl. bar)</span>
+                    <span class="ex-sets">4 &times; 6&ndash;8</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Incline Dumbbell Press</span>
+                    <span class="ex-wt">12&ndash;16 kg per dumbbell</span>
+                    <span class="ex-sets">3 &times; 8&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Machine Chest Press</span>
+                    <span class="ex-wt">25&ndash;40 kg</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Dips</span>
+                    <span class="ex-wt">Bodyweight (add weight once at 12)</span>
+                    <span class="ex-sets">3 &times; 8&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Rope Pushdowns</span>
+                    <span class="ex-wt">15&ndash;25 kg</span>
+                    <span class="ex-sets">3 &times; 12&ndash;15</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Overhead Tricep Ext. (Cable)</span>
+                    <span class="ex-wt">15&ndash;20 kg</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="day-card" data-day="tue" data-abbr="TUE">
+            <div class="card-top">
+                <div class="card-day-name">Tuesday</div>
+                <div class="card-focus">Pull<br>Back + Biceps</div>
+            </div>
+            <ul class="ex-list">
+                <li class="ex-item">
+                    <span class="ex-name">Pull-ups</span>
+                    <span class="ex-wt">Bodyweight (assist if &lt;6 reps)</span>
+                    <span class="ex-sets">4 &times; 6&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Barbell Row</span>
+                    <span class="ex-wt">30&ndash;40 kg</span>
+                    <span class="ex-sets">3 &times; 8&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Seated Cable Row</span>
+                    <span class="ex-wt">30&ndash;45 kg</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Face Pulls</span>
+                    <span class="ex-wt">15&ndash;25 kg</span>
+                    <span class="ex-sets">3 &times; 12&ndash;15</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Barbell Curl</span>
+                    <span class="ex-wt">20&ndash;25 kg</span>
+                    <span class="ex-sets">3 &times; 8&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Incline Dumbbell Curl</span>
+                    <span class="ex-wt">8&ndash;12 kg per hand</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Hammer Curl</span>
+                    <span class="ex-wt">10&ndash;14 kg per hand</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="day-card" data-day="wed" data-abbr="WED">
+            <div class="card-top">
+                <div class="card-day-name">Wednesday</div>
+                <div class="card-focus">Legs</div>
+            </div>
+            <ul class="ex-list">
+                <li class="ex-item">
+                    <span class="ex-name">Back Squat</span>
+                    <span class="ex-wt">35&ndash;50 kg</span>
+                    <span class="ex-sets">4 &times; 5&ndash;8</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Romanian Deadlift</span>
+                    <span class="ex-wt">40&ndash;60 kg</span>
+                    <span class="ex-sets">3 &times; 8&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Leg Press</span>
+                    <span class="ex-wt">80&ndash;120 kg (machine dependent)</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Leg Curl</span>
+                    <span class="ex-wt">25&ndash;40 kg</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Calf Raises</span>
+                    <span class="ex-wt">40&ndash;80 kg</span>
+                    <span class="ex-sets">4 &times; 12&ndash;20</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="day-card" data-day="fri" data-abbr="FRI">
+            <div class="card-top">
+                <div class="card-day-name">Friday</div>
+                <div class="card-focus">Arms + Shoulders<br>(Priority)</div>
+            </div>
+            <ul class="ex-list">
+                <li class="ex-item">
+                    <span class="ex-name">Close-Grip Bench</span>
+                    <span class="ex-wt">30&ndash;35 kg</span>
+                    <span class="ex-sets">4 &times; 6&ndash;8</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">EZ Bar Curl</span>
+                    <span class="ex-wt">20&ndash;25 kg</span>
+                    <span class="ex-sets">4 &times; 8&ndash;10</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Skull Crushers</span>
+                    <span class="ex-wt">15&ndash;25 kg</span>
+                    <span class="ex-sets">3 &times; 10&ndash;12</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Cable Curl</span>
+                    <span class="ex-wt">15&ndash;25 kg</span>
+                    <span class="ex-sets">3 &times; 12&ndash;15</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Lateral Raises</span>
+                    <span class="ex-wt">6&ndash;10 kg per dumbbell</span>
+                    <span class="ex-sets">4 &times; 15&ndash;20</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Rear Delt Fly (Machine)</span>
+                    <span class="ex-wt">20&ndash;35 kg</span>
+                    <span class="ex-sets">3 &times; 15</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="day-card" data-day="sat" data-abbr="SAT">
+            <div class="card-top">
+                <div class="card-day-name">Saturday</div>
+                <div class="card-focus">Upper Power</div>
+            </div>
+            <ul class="ex-list">
+                <li class="ex-item">
+                    <span class="ex-name">Overhead Press (Barbell)</span>
+                    <span class="ex-wt">20&ndash;30 kg</span>
+                    <span class="ex-sets">4 &times; 5&ndash;6</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Weighted Pull-ups</span>
+                    <span class="ex-wt">Bodyweight (add 2.5 kg once strong)</span>
+                    <span class="ex-sets">4 &times; 5&ndash;6</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Dumbbell Bench</span>
+                    <span class="ex-wt">16&ndash;20 kg per dumbbell</span>
+                    <span class="ex-sets">3 &times; 8</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">T-Bar Row</span>
+                    <span class="ex-wt">30&ndash;50 kg</span>
+                    <span class="ex-sets">3 &times; 8</span>
+                </li>
+                <li class="ex-item">
+                    <span class="ex-name">Barbell Curl + Dips Superset</span>
+                    <span class="ex-wt">Same as earlier ranges</span>
+                    <span class="ex-sets">3 &times; 8&ndash;12</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <section class="growth-section">
+        <p class="section-eyebrow">Key Principles</p>
+        <h2 class="section-title">The Real Growth Lever</h2>
+        <p class="section-sub">Critical at 60 kg. At your height, lifting alone won&rsquo;t build big arms unless you:</p>
+        <div class="growth-grid">
+            <div class="growth-item" data-num="1">
+                <span class="growth-icon">&#x1F969;</span>
+                <h3 class="growth-title">Eat in a Surplus</h3>
+                <ul>
+                    <li>~2,800&ndash;3,000 kcal/day to start</li>
+                    <li>Protein: ~120g daily</li>
+                </ul>
+                <p class="growth-note">If scale isn&rsquo;t moving up ~0.25&ndash;0.5 kg/week, increase food.</p>
+            </div>
+            <div class="growth-item" data-num="2">
+                <span class="growth-icon">&#x1F4C8;</span>
+                <h3 class="growth-title">Track Progression</h3>
+                <p>If your bench moves from 35 kg to 60 kg over a few months, your arms <strong>will</strong> grow. Strength is the engine for hypertrophy at this stage.</p>
+            </div>
+            <div class="growth-item" data-num="3">
+                <span class="growth-icon">&#x1F4A4;</span>
+                <h3 class="growth-title">Sleep Properly</h3>
+                <p>Aim for <strong>7&ndash;9 hours</strong> a night. Growth hormone matters substantially more when you&rsquo;re this lean.</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer class="site-footer">
+    <div class="wrap">
+        <p>Hypertrophy Blueprint <span class="dot">&middot;</span> 5-Day Training Plan <span class="dot">&middot;</span> Starting Weights Reference</p>
+    </div>
+</footer>
+
+</body>
+</html>
